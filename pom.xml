@@ -20,6 +20,7 @@
     <modules>
         <module>shutdown-demo</module>
         <module>logger-demo</module>
+        <module>datajpa-demo</module>
     </modules>
 
     <properties>
