@@ -23,6 +23,7 @@
         <module>datajpa-demo</module>
         <module>mapstruct-demo</module>
         <module>threadlocal-demo</module>
+        <module>async-demo</module>
     </modules>
 
     <properties>
