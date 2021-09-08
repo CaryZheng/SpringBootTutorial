@@ -9,7 +9,6 @@ import java.util.Base64;
 public class RSADecrypt {
 
     public static String decrypt(String cryptograph, String prikey) throws Exception {
-//        PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(Base64.getDecoder().decode(prikey.replace("\r\n", "")));
         PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(Base64.getDecoder().decode(prikey));
         PrivateKey privateKey = KeyFactory.getInstance("RSA").generatePrivate(keySpec);
 
