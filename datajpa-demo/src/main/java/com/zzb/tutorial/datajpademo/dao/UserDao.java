@@ -2,6 +2,7 @@ package com.zzb.tutorial.datajpademo.dao;
 
 import com.zzb.tutorial.datajpademo.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -18,4 +19,12 @@ public interface UserDao extends JpaRepository<User, Integer> {
 
     @Query(value = "SELECT * FROM user WHERE user_name = :userName AND password = :password", nativeQuery = true)
     User findByCustomInfo3(@Param("userName") String userName, @Param("password") String password);
+
+    @Modifying
+    @Query("UPDATE User u SET u.userName = ?1 WHERE u.id = ?2")
+    int updateUserInfo1(@Param("userName") String userName, @Param("id") Integer userId);
+
+    @Modifying
+    @Query(value = "UPDATE user SET user.user_name = ?1 WHERE user.id = ?2", nativeQuery = true)
+    int updateUserInfo2(String userName, Integer userId);
 }

@@ -92,3 +92,8 @@ INSERT INTO `user_role_mapping` VALUES (1, 1, 1), (2, 1, 2), (3, 2, 2);
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+
+-- Update_20210908
+ALTER TABLE user ADD create_time datetime;
+ALTER TABLE user ADD update_time datetime;
