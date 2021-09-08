@@ -1,5 +1,6 @@
 package com.zzb.tutorial.datajpademo.entity;
 
+import com.zzb.tutorial.datajpademo.common.BaseEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,7 +11,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @Table(name = "user")
-public class User {
+public class User extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
