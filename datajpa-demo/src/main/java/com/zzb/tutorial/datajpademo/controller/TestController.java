@@ -1,9 +1,11 @@
 package com.zzb.tutorial.datajpademo.controller;
 
 import com.zzb.tutorial.datajpademo.dao.UserDao;
+import com.zzb.tutorial.datajpademo.dto.UserDTO;
 import com.zzb.tutorial.datajpademo.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -65,10 +67,13 @@ public class TestController {
     }
 
     @PostMapping("/create")
-    public User createUser(@RequestBody User user) {
+    public UserDTO createUser(@RequestBody User user) {
         User result = userDao.save(user);
 
-        return result;
+        UserDTO userDTO = new UserDTO();
+        BeanUtils.copyProperties(result, userDTO);
+
+        return userDTO;
     }
 
     @PostMapping("/update")
