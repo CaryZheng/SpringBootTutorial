@@ -24,6 +24,7 @@
         <module>mapstruct-demo</module>
         <module>threadlocal-demo</module>
         <module>async-demo</module>
+        <module>jiguang-demo</module>
     </modules>
 
     <properties>
