@@ -6,23 +6,22 @@ import com.zzb.tutorial.mybatisplusdemo.mapper.UserMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/mybatis-plus")
 public class TestController {
 
-    private Logger log = LoggerFactory.getLogger(TestController.class);
+    private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private UserMapper userMapper;
 
     @GetMapping("/test1")
-    public User test1() {
-        User user = userMapper.selectById(1);
+    public User test1(@RequestParam Long userId) {
+        User user = userMapper.selectById(userId);
+
+        log.info("mybatis-plus test1 result = " + user);
 
         return user;
     }
