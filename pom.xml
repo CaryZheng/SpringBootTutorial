@@ -26,6 +26,7 @@
         <module>async-demo</module>
         <module>jiguang-demo</module>
         <module>mybatis-demo</module>
+        <module>mybatisplus-demo</module>
     </modules>
 
     <properties>
