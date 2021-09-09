@@ -27,6 +27,8 @@
         <module>jiguang-demo</module>
         <module>mybatis-demo</module>
         <module>mybatisplus-demo</module>
+        <module>pay-demo</module>
+        <module>zmall-demo</module>
     </modules>
 
     <properties>
