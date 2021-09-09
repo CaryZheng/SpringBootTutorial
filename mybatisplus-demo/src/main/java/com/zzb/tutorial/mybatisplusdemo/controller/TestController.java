@@ -17,6 +17,13 @@ public class TestController {
     @Autowired
     private UserMapper userMapper;
 
+    @GetMapping("/user/count")
+    public int getUserCount() {
+        int userCount = userMapper.getUserCount();
+
+        return userCount;
+    }
+
     @GetMapping("/test1")
     public User test1(@RequestParam Long userId) {
         User user = userMapper.selectById(userId);
