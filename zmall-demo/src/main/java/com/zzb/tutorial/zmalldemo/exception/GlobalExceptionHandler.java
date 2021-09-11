@@ -15,7 +15,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseWrapper handleException(Exception e) {
-        return ResponseWrapper.fail(CodeEnum.CODE_000001);
+        return ResponseWrapper.fail(CodeEnum.CODE_000001, e.getMessage());
     }
 
 }

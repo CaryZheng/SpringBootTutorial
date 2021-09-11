@@ -69,4 +69,9 @@ public class ResponseWrapper<T> {
         return response;
     }
 
+    public static <T> ResponseWrapper<T> fail(CodeEnum message, T obj) {
+        ResponseWrapper<T> response = new ResponseWrapper<>(message, obj);
+        return response;
+    }
+
 }
