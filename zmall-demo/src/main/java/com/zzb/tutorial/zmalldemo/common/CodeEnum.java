@@ -5,7 +5,10 @@ public enum CodeEnum {
     /** -- 0开头系统级别响应码 --**/
     SUCCESS("000000","Successful"),
 
-    CODE_100001("100001","参数错误");
+    CODE_100001("100001","参数错误"),
+
+    /** -- 用户相关 --**/
+    CODE_200001("200001","该账号已存在");
 
     private String code;
     private String msg;
