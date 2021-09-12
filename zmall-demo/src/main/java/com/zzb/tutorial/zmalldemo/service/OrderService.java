@@ -2,8 +2,9 @@ package com.zzb.tutorial.zmalldemo.service;
 
 
 import com.zzb.tutorial.zmalldemo.dao.GoodsOrder;
+import com.zzb.tutorial.zmalldemo.dto.GoodsOrderDTO;
 
 public interface OrderService {
-    GoodsOrder createOrder(String orderNumber, Long userId, Long goodsId);
+    GoodsOrderDTO createOrder(String orderNumber, Long userId, Long goodsId);
     GoodsOrder updateOrder(String orderNumber);
 }

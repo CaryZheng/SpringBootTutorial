@@ -3,15 +3,18 @@ package com.zzb.tutorial.zmalldemo.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.zzb.tutorial.zmalldemo.dao.Goods;
 import com.zzb.tutorial.zmalldemo.dao.GoodsOrder;
+import com.zzb.tutorial.zmalldemo.dto.GoodsOrderDTO;
 import com.zzb.tutorial.zmalldemo.enums.GoodsOrderState;
 import com.zzb.tutorial.zmalldemo.exception.OrderException;
 import com.zzb.tutorial.zmalldemo.mapper.GoodsMapper;
 import com.zzb.tutorial.zmalldemo.mapper.GoodsOrderMapper;
 import com.zzb.tutorial.zmalldemo.service.OrderService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Service
@@ -24,7 +27,7 @@ public class OrderServiceImpl implements OrderService {
     private GoodsMapper goodsMapper;
 
     @Override
-    public GoodsOrder createOrder(String orderNumber, Long userId, Long goodsId) {
+    public GoodsOrderDTO createOrder(String orderNumber, Long userId, Long goodsId) {
         GoodsOrder goodsOrder = new GoodsOrder();
         goodsOrder.setOrderNumber(orderNumber);
         LambdaQueryWrapper<GoodsOrder> goodsOrderQueryWrapper = new LambdaQueryWrapper<>();
@@ -33,7 +36,10 @@ public class OrderServiceImpl implements OrderService {
         GoodsOrder goosdOrderResult = goodsOrderMapper.selectOne(goodsOrderQueryWrapper);
         if (null != goosdOrderResult) {
             // 订单已创建过
-            return goosdOrderResult;
+            GoodsOrderDTO goodsOrderDTO = new GoodsOrderDTO();
+            BeanUtils.copyProperties(goosdOrderResult, goodsOrderDTO);
+
+            return goodsOrderDTO;
         }
 
         // 创建订单
@@ -47,7 +53,13 @@ public class OrderServiceImpl implements OrderService {
 
         goodsOrderMapper.insert(newGoodsOrder);
 
-        return newGoodsOrder;
+        GoodsOrderDTO goodsOrderDTO = new GoodsOrderDTO();
+        BeanUtils.copyProperties(newGoodsOrder, goodsOrderDTO);
+
+        // TODO: 目前 totalPrice 为测试数据
+        goodsOrderDTO.setTotalPrice(BigDecimal.valueOf(99.9));
+
+        return goodsOrderDTO;
     }
 
     @Transactional

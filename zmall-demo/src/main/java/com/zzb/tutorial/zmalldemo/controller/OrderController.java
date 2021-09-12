@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.zzb.tutorial.zmalldemo.common.ResponseWrapper;
 import com.zzb.tutorial.zmalldemo.dao.GoodsOrder;
 import com.zzb.tutorial.zmalldemo.data.OrderRD;
+import com.zzb.tutorial.zmalldemo.dto.GoodsOrderDTO;
 import com.zzb.tutorial.zmalldemo.service.OrderService;
 import com.zzb.tutorial.zmalldemo.utils.UuidUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,7 @@ public class OrderController {
         Long userId = orderRD.getUserId();
         Long goodsId = orderRD.getGoodsId();
 
-        GoodsOrder newGoodsOrder = orderService.createOrder(orderNumber, userId, goodsId);
+        GoodsOrderDTO newGoodsOrder = orderService.createOrder(orderNumber, userId, goodsId);
 
         return ResponseWrapper.success(newGoodsOrder);
     }
