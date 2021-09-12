@@ -12,4 +12,10 @@ public interface GoodsOrderMapper extends BaseMapper<GoodsOrder> {
 
     @Select("SELECT id, user_id, goods_id, state FROM goods_order WHERE id = #{id} FOR UPDATE")
     GoodsOrder selectByIdForUpdate(long id);
+
+//    @Select("SELECT id, order_number, user_id, goods_id, state FROM goods_order WHERE order_number = #{orderNumber} FOR UPDATE")
+//    GoodsOrder selectByOrderNumberForUpdate(String orderNumber);
+
+    @Select("SELECT * FROM goods_order WHERE order_number = #{orderNumber} FOR UPDATE")
+    GoodsOrder selectByOrderNumberForUpdate(String orderNumber);
 }
