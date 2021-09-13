@@ -39,4 +39,14 @@ public class JiguangController {
         return ResponseWrapper.success(phone);
     }
 
+    @GetMapping("/sendPhoneMsg")
+    public ResponseWrapper sendPhoneMsg() {
+        String phone = "18217208700";
+        String code = "987654";
+
+        jiguangService.sendPhoneMsg(phone, code);
+
+        return ResponseWrapper.success();
+    }
+
 }

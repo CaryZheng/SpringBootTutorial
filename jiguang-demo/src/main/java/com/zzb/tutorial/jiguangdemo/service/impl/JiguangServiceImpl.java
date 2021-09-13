@@ -2,6 +2,7 @@ package com.zzb.tutorial.jiguangdemo.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.zzb.tutorial.jiguangdemo.service.JiguangService;
+import com.zzb.tutorial.jiguangdemo.utils.JGSmsUtil;
 import com.zzb.tutorial.jiguangdemo.utils.RSADecrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -70,5 +71,10 @@ public class JiguangServiceImpl implements JiguangService {
         }
 
         return phone;
+    }
+
+    @Override
+    public void sendPhoneMsg(String phone, String code) {
+        JGSmsUtil.sendSMSCode(phone, code);
     }
 }

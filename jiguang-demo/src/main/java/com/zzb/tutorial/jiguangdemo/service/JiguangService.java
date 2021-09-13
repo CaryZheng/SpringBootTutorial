@@ -8,4 +8,11 @@ public interface JiguangService {
      * @return 手机号
      */
     String verifyPhone(String loginToken);
+
+    /**
+     * 极光 - 发送短信
+     * @param phone
+     * @param code
+     */
+    void sendPhoneMsg(String phone, String code);
 }
