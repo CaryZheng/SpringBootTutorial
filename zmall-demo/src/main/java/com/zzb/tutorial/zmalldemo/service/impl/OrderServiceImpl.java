@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 @Service
@@ -53,11 +52,12 @@ public class OrderServiceImpl implements OrderService {
 
         goodsOrderMapper.insert(newGoodsOrder);
 
+        Goods goods = goodsMapper.selectById(newGoodsOrder.getGoodsId());
+
         GoodsOrderDTO goodsOrderDTO = new GoodsOrderDTO();
         BeanUtils.copyProperties(newGoodsOrder, goodsOrderDTO);
 
-        // TODO: 目前 totalPrice 为测试数据
-        goodsOrderDTO.setTotalPrice(BigDecimal.valueOf(99.9));
+        goodsOrderDTO.setTotalPrice(goods.getPrice());
 
         return goodsOrderDTO;
     }
