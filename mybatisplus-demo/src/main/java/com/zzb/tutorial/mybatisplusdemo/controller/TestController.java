@@ -47,4 +47,15 @@ public class TestController {
         return "createUser result = " + result;
     }
 
+    @PostMapping("/update")
+    public User updateUser(@RequestBody UserRD userRD) {
+        User user = userMapper.selectById(userRD.getUserId());
+
+        user.setUserName(userRD.getUserName());
+
+        userMapper.updateById(user);
+
+        return user;
+    }
+
 }
