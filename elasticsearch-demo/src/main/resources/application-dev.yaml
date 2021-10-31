@@ -1,0 +1,7 @@
+server:
+  port: 8080
+
+spring:
+  elasticsearch:
+    rest:
+      uris: xx.xx.xx.xx:9200
