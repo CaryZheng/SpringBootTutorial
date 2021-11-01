@@ -19,6 +19,7 @@ import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class TestController {
 
         Resource resource = loader.getResource("classpath:initData.json");
         try {
-            result = IOUtils.toString(resource.getInputStream());
+            result = IOUtils.toString(resource.getInputStream(), Charset.forName("UTF-8"));
             log.info("json result: " + result);
         } catch (Exception e) {
             e.printStackTrace();
