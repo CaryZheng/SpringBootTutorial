@@ -3,7 +3,7 @@ package com.zzb.tutorial.elasticsearchdemo.vm;
 public class ItemVM {
     private Long id;
     private String postText;
-    private String postTag;
+    private String[] postTag;
 
     public Long getId() {
         return id;
@@ -21,11 +21,11 @@ public class ItemVM {
         this.postText = postText;
     }
 
-    public String getPostTag() {
+    public String[] getPostTag() {
         return postTag;
     }
 
-    public void setPostTag(String postTag) {
+    public void setPostTag(String[] postTag) {
         this.postTag = postTag;
     }
 }

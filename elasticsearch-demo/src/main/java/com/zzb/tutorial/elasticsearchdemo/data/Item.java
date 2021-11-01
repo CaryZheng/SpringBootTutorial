@@ -14,7 +14,7 @@ public class Item {
     private String postText;
 
     @Field(name = "post_tag", type = FieldType.Text)
-    private String postTag;
+    private String[] postTag;
 
     public Long getId() {
         return id;
@@ -32,11 +32,11 @@ public class Item {
         this.postText = postText;
     }
 
-    public String getPostTag() {
+    public String[] getPostTag() {
         return postTag;
     }
 
-    public void setPostTag(String postTag) {
+    public void setPostTag(String[] postTag) {
         this.postTag = postTag;
     }
 }

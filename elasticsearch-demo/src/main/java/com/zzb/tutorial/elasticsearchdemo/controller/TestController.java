@@ -6,6 +6,7 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.elasticsearch.core.IndexOperations;
 import org.springframework.data.elasticsearch.core.SearchHit;
@@ -78,7 +79,7 @@ public class TestController {
         searchHitList.forEach(hit -> {
             Long id = hit.getContent().getId();
             String text = hit.getContent().getPostText();
-            String tag = hit.getContent().getPostTag();
+            String[] tag = hit.getContent().getPostTag();
             log.info("返回数据: id = " + id + " , text = " + text + " , tag = " + tag);
         });
 
@@ -93,7 +94,9 @@ public class TestController {
     @GetMapping("/doc/search")
     public List<SearchHit<Item>> docSearchWithParam(@RequestParam String queryText) {
         NativeSearchQueryBuilder searchQueryBuilder = new NativeSearchQueryBuilder();
-        searchQueryBuilder.withQuery(QueryBuilders.queryStringQuery(queryText).field("post_text"));
+//        searchQueryBuilder.withQuery(QueryBuilders.queryStringQuery(queryText).field("post_text"));
+        searchQueryBuilder.withQuery(QueryBuilders.queryStringQuery(queryText).field("post_tag"));
+        searchQueryBuilder.withPageable(PageRequest.of(0, 5));
 
         SearchHits<Item> hits = elasticsearchRestTemplate.search(searchQueryBuilder.build(), Item.class);
 
@@ -101,7 +104,7 @@ public class TestController {
         searchHitList.forEach(hit -> {
             Long id = hit.getContent().getId();
             String text = hit.getContent().getPostText();
-            String tag = hit.getContent().getPostTag();
+            String[] tag = hit.getContent().getPostTag();
             log.info("返回数据: id = " + id + " , text = " + text + " , tag = " + tag);
         });
 
