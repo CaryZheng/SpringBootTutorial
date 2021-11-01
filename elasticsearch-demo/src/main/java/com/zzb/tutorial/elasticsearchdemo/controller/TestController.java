@@ -1,12 +1,17 @@
 package com.zzb.tutorial.elasticsearchdemo.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.zzb.tutorial.elasticsearchdemo.data.Item;
 import com.zzb.tutorial.elasticsearchdemo.vm.ItemVM;
+import org.apache.commons.io.IOUtils;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.elasticsearch.core.IndexOperations;
 import org.springframework.data.elasticsearch.core.SearchHit;
@@ -14,6 +19,7 @@ import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -24,6 +30,41 @@ public class TestController {
 
     @Autowired
     private ElasticsearchRestTemplate elasticsearchRestTemplate;
+
+    @Autowired
+    private ResourceLoader loader;
+
+    /**
+     * 初始化测试数据
+     * @return
+     */
+    @GetMapping("/data/init")
+    public List<Item> initData() {
+        List<Item> itemList = new ArrayList<>();
+
+        String result = "";
+
+        Resource resource = loader.getResource("classpath:initData.json");
+        try {
+            result = IOUtils.toString(resource.getInputStream());
+            log.info("json result: " + result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        JSONObject jsonObject = (JSONObject) JSONObject.parse(result);
+        JSONArray jsonArray = (JSONArray)jsonObject.get("data");
+        for (int i = 0; i < jsonArray.size(); i++) {
+            JSONObject jsonObject1 = (JSONObject)jsonArray.get(i);
+
+            Item item = JSON.toJavaObject(jsonObject1, Item.class);
+            itemList.add(item);
+
+            elasticsearchRestTemplate.save(item);
+        }
+
+        return itemList;
+    }
 
     /**
      * 创建索引
@@ -95,8 +136,10 @@ public class TestController {
     public List<SearchHit<Item>> docSearchWithParam(@RequestParam String queryText) {
         NativeSearchQueryBuilder searchQueryBuilder = new NativeSearchQueryBuilder();
 //        searchQueryBuilder.withQuery(QueryBuilders.queryStringQuery(queryText).field("post_text"));
-        searchQueryBuilder.withQuery(QueryBuilders.queryStringQuery(queryText).field("post_tag"));
-        searchQueryBuilder.withPageable(PageRequest.of(0, 5));
+//        searchQueryBuilder.withQuery(QueryBuilders.queryStringQuery(queryText).field("post_tag"));
+//        searchQueryBuilder.withPageable(PageRequest.of(0, 5));
+
+        searchQueryBuilder.withQuery(QueryBuilders.matchQuery("post_text", queryText));
 
         SearchHits<Item> hits = elasticsearchRestTemplate.search(searchQueryBuilder.build(), Item.class);
 
