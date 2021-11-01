@@ -29,6 +29,7 @@
         <module>mybatisplus-demo</module>
         <module>pay-demo</module>
         <module>zmall-demo</module>
+        <module>elasticsearch-demo</module>
     </modules>
 
     <properties>

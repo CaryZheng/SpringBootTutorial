@@ -27,6 +27,13 @@
         </rollingPolicy>
     </appender>
 
+    <!-- logstash
+    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>xx.xx.xx.xx:8061</destination>
+        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder" />
+    </appender>
+    -->
+
     <!--开发环境基本级别为DEBUG-->
 <!--    <springProfile name="dev">-->
 <!--        <root level="DEBUG">-->
@@ -35,6 +42,7 @@
 <!--    </springProfile>-->
     <springProfile name="dev">
         <root level="INFO">
+<!--            <appender-ref ref="LOGSTASH" />-->
             <appender-ref ref="Console"/>
             <appender-ref ref="RollingFile"/>
         </root>

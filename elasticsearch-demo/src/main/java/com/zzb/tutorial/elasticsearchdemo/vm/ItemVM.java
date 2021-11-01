@@ -1,19 +1,8 @@
-package com.zzb.tutorial.elasticsearchdemo.data;
+package com.zzb.tutorial.elasticsearchdemo.vm;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.FieldType;
-
-@Document(indexName = "my_post")
-public class Item {
-    @Id
+public class ItemVM {
     private Long id;
-
-    @Field(name = "post_text", type = FieldType.Text)
     private String postText;
-
-    @Field(name = "post_tag", type = FieldType.Text)
     private String postTag;
 
     public Long getId() {

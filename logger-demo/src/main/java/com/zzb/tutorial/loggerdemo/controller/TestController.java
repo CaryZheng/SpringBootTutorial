@@ -12,9 +12,13 @@ public class TestController {
 
     private Logger log = LoggerFactory.getLogger(TestController.class);
 
+    private static int sCount = 0;
+
     @GetMapping("/logger")
     public String logger() {
-        log.info("Start to execute /test/logger function");
+        ++sCount;
+
+        log.info("Start to execute /test/logger function, sCount = " + sCount);
 
         return "logger success";
     }
