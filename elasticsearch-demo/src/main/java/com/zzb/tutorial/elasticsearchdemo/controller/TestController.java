@@ -16,7 +16,9 @@ import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.elasticsearch.core.IndexOperations;
 import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHits;
+import org.springframework.data.elasticsearch.core.document.Document;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.Charset;
@@ -73,8 +75,14 @@ public class TestController {
      */
     @PostMapping("/index/create")
     public boolean createIndex() {
+        // 指定文档的数据实体类
         IndexOperations indexOperations = elasticsearchRestTemplate.indexOps(Item.class);
-        boolean result = indexOperations.create();
+        // 创建索引
+        indexOperations.create();
+        // 创建字段映射
+        Document mappings = indexOperations.createMapping();
+        // 给索引设置字段映射
+        boolean result = indexOperations.putMapping(mappings);
 
         return result;
     }
@@ -100,6 +108,7 @@ public class TestController {
     public String insertDoc(@RequestBody ItemVM itemVM) {
         Item item = new Item();
         item.setId(itemVM.getId());
+        item.setPostTitle(itemVM.getPostTitle());
         item.setPostText(itemVM.getPostText());
         item.setPostTag(itemVM.getPostTag());
 
@@ -134,13 +143,29 @@ public class TestController {
      * @return
      */
     @GetMapping("/doc/search")
-    public List<SearchHit<Item>> docSearchWithParam(@RequestParam String queryText) {
+    public List<SearchHit<Item>> docSearchWithParam(@RequestParam(required = false) String queryTitle, @RequestParam(required = false) String queryText) {
         NativeSearchQueryBuilder searchQueryBuilder = new NativeSearchQueryBuilder();
 //        searchQueryBuilder.withQuery(QueryBuilders.queryStringQuery(queryText).field("post_text"));
 //        searchQueryBuilder.withQuery(QueryBuilders.queryStringQuery(queryText).field("post_tag"));
 //        searchQueryBuilder.withPageable(PageRequest.of(0, 5));
 
-        searchQueryBuilder.withQuery(QueryBuilders.matchQuery("post_text", queryText));
+//        searchQueryBuilder.withQuery(QueryBuilders.matchQuery("post_text", queryText));
+
+        if (StringUtils.hasLength(queryTitle)) {
+            // 精确匹配（注：与query完全一模一样）
+//            searchQueryBuilder.withQuery(QueryBuilders.matchQuery("post_title.keyword", queryTitle));
+
+            // 模糊匹配（注：query分词匹配）
+            searchQueryBuilder.withQuery(QueryBuilders.matchQuery("post_title", queryTitle));
+        }
+
+        if (StringUtils.hasLength(queryText)) {
+            // 模糊匹配（注：query分词匹配）
+            searchQueryBuilder.withQuery(QueryBuilders.matchQuery("post_text", queryText));
+
+            // 全词匹配查询（注：query不分词匹配）
+//            searchQueryBuilder.withQuery(QueryBuilders.matchPhraseQuery("post_text", queryText));
+        }
 
         SearchHits<Item> hits = elasticsearchRestTemplate.search(searchQueryBuilder.build(), Item.class);
 
