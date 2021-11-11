@@ -17,6 +17,7 @@ import org.springframework.data.elasticsearch.core.IndexOperations;
 import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.document.Document;
+import org.springframework.data.elasticsearch.core.query.IndexQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -63,10 +64,25 @@ public class TestController {
             Item item = JSON.toJavaObject(jsonObject1, Item.class);
             itemList.add(item);
 
-            elasticsearchRestTemplate.save(item);
+            // 单个添加doc
+//            elasticsearchRestTemplate.save(item);
         }
 
+        // 批量添加doc
+        bulkAddItem(itemList);
+
         return itemList;
+    }
+
+    private void bulkAddItem(List<Item> itemList) {
+        List<IndexQuery> indexQueryList = new ArrayList<>();
+        itemList.forEach(item -> {
+            IndexQuery indexQuery = new IndexQuery();
+            indexQuery.setObject(item);
+            indexQueryList.add(indexQuery);
+        });
+
+        elasticsearchRestTemplate.bulkIndex(indexQueryList, Item.class);
     }
 
     /**
@@ -122,7 +138,7 @@ public class TestController {
      * @return
      */
     @GetMapping("/doc/search/all")
-    public List<SearchHit<Item>> docSearchAll() {
+    public List<SearchHit<Item>> searchAllDocs() {
         NativeSearchQueryBuilder searchQueryBuilder = new NativeSearchQueryBuilder();
         SearchHits<Item> hits = elasticsearchRestTemplate.search(searchQueryBuilder.build(), Item.class);
 
@@ -143,7 +159,7 @@ public class TestController {
      * @return
      */
     @GetMapping("/doc/search")
-    public List<SearchHit<Item>> docSearchWithParam(@RequestParam(required = false) String queryTitle, @RequestParam(required = false) String queryText) {
+    public List<SearchHit<Item>> searchDocWithParam(@RequestParam(required = false) String queryTitle, @RequestParam(required = false) String queryText) {
         NativeSearchQueryBuilder searchQueryBuilder = new NativeSearchQueryBuilder();
 //        searchQueryBuilder.withQuery(QueryBuilders.queryStringQuery(queryText).field("post_text"));
 //        searchQueryBuilder.withQuery(QueryBuilders.queryStringQuery(queryText).field("post_tag"));
@@ -179,4 +195,5 @@ public class TestController {
 
         return searchHitList;
     }
+
 }
