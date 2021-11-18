@@ -19,9 +19,16 @@ public class TestController {
     @Autowired
     private RecommendService recommendService;
 
-    @GetMapping("/test")
-    public List<Long> test() {
-        List<Long> idList =  recommendService.getRecommendItemsByUser(1L, 10);
+    @GetMapping("/test1")
+    public List<Long> test1() {
+        List<Long> idList =  recommendService.getRecommendItemsByUser(2L, 2);
+
+        return idList;
+    }
+
+    @GetMapping("/test2")
+    public List<Long> test2() {
+        List<Long> idList =  recommendService.getRecommendItemsByItem(2L, 2028L, 2);
 
         return idList;
     }
