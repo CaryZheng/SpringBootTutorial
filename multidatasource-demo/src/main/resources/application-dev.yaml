@@ -1,0 +1,19 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    primary:
+      jdbc-url: jdbc:mysql://xxxxxxxx
+      username: xxxxxxxx
+      password: xxxxxxxx
+      driver-class-name: com.mysql.cj.jdbc.Driver
+
+    secondary:
+      jdbc-url: jdbc:mysql://xxxxxxxx
+      username: xxxxxxxx
+      password: xxxxxxxx
+      driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    show-sql: true

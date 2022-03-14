@@ -30,6 +30,7 @@
         <module>pay-demo</module>
         <module>zmall-demo</module>
         <module>elasticsearch-demo</module>
+        <module>multidatasource-demo</module>
     </modules>
 
     <properties>
