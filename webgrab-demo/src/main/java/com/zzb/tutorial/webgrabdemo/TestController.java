@@ -4,6 +4,9 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +27,7 @@ public class TestController {
 
     @GetMapping(value = "/test1")
     public ResponseEntity<ResponseWrapper> getWebBaseInfo() throws IOException {
-        String url = "https://movie.douban.com/top250";
+        String url = "https://movie.douban.com/top250";     // 静态页面
 
         String title = "";
         String description = "";
@@ -66,4 +69,29 @@ public class TestController {
         return new ResponseEntity<>(new ResponseWrapper(map), HttpStatus.OK);
     }
 
+    @GetMapping(value = "/test2")
+    public ResponseEntity<ResponseWrapper> getWebBaseInfo2() {
+        String url = "";      // 动态页面
+
+        String chromeDriverPath = "/Users/cary/Documents/GS/ChromeDriver/chromedriver";
+
+        System.setProperty("webdriver.chrome.driver", chromeDriverPath);
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless", "--disable-gpu", "--window-size=1920,1200","--ignore-certificate-errors", "--silent");
+        WebDriver driver = new ChromeDriver(options);
+
+        driver.get(url);
+
+        String pageSource = driver.getPageSource();
+        Document document = Jsoup.parse(pageSource);
+        String title = document.getElementsByClass("title").get(0).text();
+
+        driver.quit();
+
+        Map map = new HashMap();
+        map.put("title", title);
+        map.put("requestUrl", url);
+
+        return new ResponseEntity<>(new ResponseWrapper(map), HttpStatus.OK);
+    }
 }
