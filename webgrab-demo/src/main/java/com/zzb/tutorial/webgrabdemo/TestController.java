@@ -71,8 +71,10 @@ public class TestController {
 
     @GetMapping(value = "/test2")
     public ResponseEntity<ResponseWrapper> getWebBaseInfo2() {
+        // TODO: 配置需要解析的url地址
         String url = "";      // 动态页面
 
+        // TODO: 根据driver实际路径进行配置
         String chromeDriverPath = "/Users/cary/Documents/GS/ChromeDriver/chromedriver";
 
         System.setProperty("webdriver.chrome.driver", chromeDriverPath);
