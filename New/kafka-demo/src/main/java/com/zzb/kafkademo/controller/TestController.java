@@ -1,6 +1,5 @@
 package com.zzb.kafkademo.controller;
 
-import com.zzb.kafkademo.kafka.Receiver;
 import com.zzb.kafkademo.kafka.Sender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,20 +17,10 @@ public class TestController {
     @Autowired
     private Sender sender;
 
-    @Autowired
-    private Receiver receiver;
-
     @GetMapping("/send")
     public String send() {
-        sender.send();
+        sender.send("Hello world from xxxx");
 
         return "Send success";
-    }
-
-    @GetMapping("/receive")
-    public String receive() {
-        receiver.receive();
-
-        return "Receive success";
     }
 }

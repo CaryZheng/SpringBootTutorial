@@ -1,2 +1,36 @@
 server:
   port: 8080
+
+spring:
+  kafka:
+    template:
+      default-topic: myTest
+    bootstrap-servers: <Kafka地址>
+    jaas:
+      enabled: true
+      loginModule: org.apache.kafka.common.security.plain.PlainLoginModule
+      options:
+        username: <Username>
+        password: <Password>
+    consumer:
+      ssl:
+        truststoreLocation: file:/Users/cary/Documents/java/SpringBootTutorial/New/kafka-demo/src/main/resources/only.4096.client.truststore.jks
+      properties:
+        sasl.mechanism: PLAIN
+        security.protocol: SASL_SSL
+        ssl.endpoint.identification.algorithm:
+      group-id: myTestGroup
+      max-poll-records: 2
+    producer:
+      ssl:
+        truststoreLocation: file:/Users/cary/Documents/java/SpringBootTutorial/New/kafka-demo/src/main/resources/only.4096.client.truststore.jks
+      retries: 3
+      acks: 1
+      compression-type: lz4
+      buffer-memory: 33554432
+      batch-size: 51200
+      properties:
+        send.buffer.bytes: 262144
+        sasl.mechanism: PLAIN
+        security.protocol: SASL_SSL
+        ssl.endpoint.identification.algorithm:
