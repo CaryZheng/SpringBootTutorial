@@ -19,8 +19,6 @@
 
     <modules>
         <module>shutdown-demo</module>
-        <module>logger-demo</module>
-        <module>datajpa-demo</module>
         <module>mapstruct-demo</module>
         <module>threadlocal-demo</module>
         <module>jiguang-demo</module>
