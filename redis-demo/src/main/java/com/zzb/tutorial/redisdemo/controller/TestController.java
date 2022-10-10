@@ -119,6 +119,11 @@ public class TestController {
         // get scroe
         Double score = stringRedisTemplate.opsForZSet().score(key, "李四");
 
+        // increase score
+        stringRedisTemplate.opsForZSet().incrementScore(key, "李四", 30);
+
+        Double newScore = stringRedisTemplate.opsForZSet().score(key, "李四");
+
         // get index
         Long index = stringRedisTemplate.opsForZSet().rank(key, "王五");
 
