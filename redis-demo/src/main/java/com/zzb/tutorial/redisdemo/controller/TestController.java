@@ -13,6 +13,7 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/test")
@@ -61,7 +62,7 @@ public class TestController {
         return list;
     }
 
-    @GetMapping("hash")
+    @GetMapping("/hash")
     public String doHash() {
         // delete
         stringRedisTemplate.opsForHash().delete("my_hash", "my_hash_key1");
@@ -76,7 +77,7 @@ public class TestController {
         return hashValue;
     }
 
-    @GetMapping("set")
+    @GetMapping("/set")
     public String doSet() {
 
         final String key = "my_set";
@@ -103,7 +104,7 @@ public class TestController {
         return value;
     }
 
-    @GetMapping("sortedSet")
+    @GetMapping("/sortedSet")
     public String doSortedSet() {
         final String key = "my_zset_java";
 
@@ -134,5 +135,19 @@ public class TestController {
         Set<ZSetOperations.TypedTuple<String>> rankTop3 = stringRedisTemplate.opsForZSet().reverseRangeWithScores(key, 0, 2);
 
         return "ok";
+    }
+
+    @GetMapping("/expire")
+    public Long doExpire() {
+        stringRedisTemplate.opsForValue().set("k3", "v3", 30, TimeUnit.SECONDS);
+
+        Long expiredTime = stringRedisTemplate.getExpire("k3");
+        if (expiredTime > 0) {
+            log.info("k2 key 未过期");
+        } else {
+            log.info("k2 key 过期了");
+        }
+
+        return expiredTime;
     }
 }
