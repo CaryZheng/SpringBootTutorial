@@ -150,4 +150,12 @@ public class TestController {
 
         return expiredTime;
     }
+
+    @GetMapping("/publish")
+    public String publish() {
+        stringRedisTemplate.convertAndSend(MessageSubscriber.CHANNEL, "Hello world for test");
+
+        return "ok";
+    }
+
 }
