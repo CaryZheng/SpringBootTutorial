@@ -1,0 +1,12 @@
+server:
+  port: 8080
+
+rocketmq:
+  name-server: rmq-cn-tl32yk3e201.cn-shanghai.rmq.aliyuncs.com:8080
+  consumer:
+    access-key: xxxx
+    secret-key: xxxx
+  producer:
+    access-key: xxxx
+    secret-key: xxxx
+    group: myTestGroup
